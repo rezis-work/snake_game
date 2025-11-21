@@ -13,11 +13,11 @@ pub enum GameMode {
 impl GameMode {
     pub fn get_base_speed(&self) -> f64 {
         match self {
-            GameMode::Easy => 0.35,      // Slower start
-            GameMode::Medium => 0.25,    // Medium start
-            GameMode::Hard => 0.15,      // Faster start
-            GameMode::Timer => 0.25,     // Medium speed for timer mode
-            GameMode::Survival => 0.25,  // Medium speed for survival mode
+            GameMode::Easy => 0.4,       // Slower start
+            GameMode::Medium => 0.3,    // Medium start
+            GameMode::Hard => 0.2,      // Faster start
+            GameMode::Timer => 0.3,     // Medium speed for timer mode
+            GameMode::Survival => 0.3,   // Medium speed for survival mode
         }
     }
     

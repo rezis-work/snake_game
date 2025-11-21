@@ -17,7 +17,7 @@ use crate::draw::to_coord_u32;
 const BLACK_COLOR: Color = [0.1, 0.1, 0.1, 1.0];
 
 fn main() {
-    let (width, height) = (20, 20);
+    let (width, height) = (30, 30); // Bigger field
     // Make window wider to accommodate score/level display
     let window_width = to_coord_u32(width + 12); // Extra space for score/level blocks
     let window_height = to_coord_u32(height);

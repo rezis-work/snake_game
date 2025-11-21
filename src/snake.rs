@@ -4,8 +4,10 @@ use piston_window::types::Color;
 
 use crate::draw::{draw_circle, to_coord};
 
-const SNAKE_BODY_COLOR: Color = [0.2, 0.7, 0.2, 1.0];
-const SNAKE_HEAD_COLOR: Color = [0.3, 0.9, 0.3, 1.0];
+const SNAKE1_BODY_COLOR: Color = [0.2, 0.7, 0.2, 1.0];  // Green for player 1
+const SNAKE1_HEAD_COLOR: Color = [0.3, 0.9, 0.3, 1.0];
+const SNAKE2_BODY_COLOR: Color = [0.2, 0.2, 0.7, 1.0];  // Blue for player 2
+const SNAKE2_HEAD_COLOR: Color = [0.3, 0.3, 0.9, 1.0];
 
 #[derive(Copy, Clone, PartialEq)]
 pub enum Direction {
@@ -51,13 +53,29 @@ impl Snake {
             tail: None,
         }
     }
+    
+    pub fn new_left(x: i32, y: i32) -> Snake {
+        let mut body: LinkedList<Block> = LinkedList::new();
+        body.push_back(Block { x, y });
+        body.push_back(Block { x: x + 1, y });
+        body.push_back(Block { x: x + 2, y });
 
-    pub fn draw(&self, con: &Context, g: &mut G2d) {
+        Snake {
+            direction: Direction::Left,  // Facing left
+            body,
+            tail: None,
+        }
+    }
+
+    pub fn draw(&self, con: &Context, g: &mut G2d, is_player1: bool) {
+        let body_color = if is_player1 { SNAKE1_BODY_COLOR } else { SNAKE2_BODY_COLOR };
+        let head_color = if is_player1 { SNAKE1_HEAD_COLOR } else { SNAKE2_HEAD_COLOR };
+        
         let mut is_head = true;
         for block in &self.body {
             if is_head {
                 // Draw head larger and brighter
-                draw_circle(SNAKE_HEAD_COLOR, block.x, block.y, con, g);
+                draw_circle(head_color, block.x, block.y, con, g);
                 // Draw eyes on head
                 let eye_color: Color = [0.0, 0.0, 0.0, 1.0];
                 let gui_x = to_coord(block.x);
@@ -77,7 +95,7 @@ impl Snake {
                 is_head = false;
             } else {
                 // Draw body segments as circles
-                draw_circle(SNAKE_BODY_COLOR, block.x, block.y, con, g);
+                draw_circle(body_color, block.x, block.y, con, g);
             }
         }
     }
