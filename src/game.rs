@@ -4,10 +4,9 @@ use piston_window::types::Color;
 use rand::{rng, Rng};
 
 use crate::snake::{Direction, Snake};
-use crate::draw::{draw_block, draw_rectangle};
+use crate::draw::{draw_rectangle, draw_apple};
 
-const FOOD_COLOR: Color = [1.0, 0.0, 0.0, 1.0];
-const BORDER_COLOR: Color = [0.0, 0.0, 0.0, 1.0];
+const BORDER_COLOR: Color = [0.2, 0.3, 0.4, 1.0];
 const GAMEOVER_COLOR: Color = [0.9, 0.1, 0.0, 0.5];
 
 const MOVING_PERIOD: f64 = 0.1;
@@ -65,7 +64,7 @@ impl Game {
         self.snake.draw(con, g);
 
         if self.food_exist {
-            draw_block(FOOD_COLOR, self.food_x, self.food_y, con, g);
+            draw_apple(self.food_x, self.food_y, con, g);
         }
 
         draw_rectangle(BORDER_COLOR, 0, 0, self.width, 1, con, g);

@@ -11,7 +11,7 @@ use game::Game;
 
 use crate::draw::to_coord_u32;
 
-const BLACK_COLOR: Color = [0.5, 0.5, 0.5, 1.0];
+const BLACK_COLOR: Color = [0.1, 0.1, 0.1, 1.0];
 
 
 fn main() {

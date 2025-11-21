@@ -1,10 +1,11 @@
 use std::collections::LinkedList;
-use piston_window::{Context, G2d};
+use piston_window::{Context, G2d, ellipse};
 use piston_window::types::Color;
 
-use crate::draw::draw_block;
+use crate::draw::{draw_circle, to_coord};
 
-const SNAKE_COLOR: Color = [0.0, 0.8, 0.0, 1.0];
+const SNAKE_BODY_COLOR: Color = [0.2, 0.7, 0.2, 1.0];
+const SNAKE_HEAD_COLOR: Color = [0.3, 0.9, 0.3, 1.0];
 
 #[derive(Copy, Clone, PartialEq)]
 pub enum Direction {
@@ -52,8 +53,32 @@ impl Snake {
     }
 
     pub fn draw(&self, con: &Context, g: &mut G2d) {
+        let mut is_head = true;
         for block in &self.body {
-            draw_block(SNAKE_COLOR, block.x, block.y, con, g);
+            if is_head {
+                // Draw head larger and brighter
+                draw_circle(SNAKE_HEAD_COLOR, block.x, block.y, con, g);
+                // Draw eyes on head
+                let eye_color: Color = [0.0, 0.0, 0.0, 1.0];
+                let gui_x = to_coord(block.x);
+                let gui_y = to_coord(block.y);
+                ellipse(
+                    eye_color,
+                    [gui_x + 6.0, gui_y + 6.0, 4.0, 4.0],
+                    con.transform,
+                    g,
+                );
+                ellipse(
+                    eye_color,
+                    [gui_x + 15.0, gui_y + 6.0, 4.0, 4.0],
+                    con.transform,
+                    g,
+                );
+                is_head = false;
+            } else {
+                // Draw body segments as circles
+                draw_circle(SNAKE_BODY_COLOR, block.x, block.y, con, g);
+            }
         }
     }
 
